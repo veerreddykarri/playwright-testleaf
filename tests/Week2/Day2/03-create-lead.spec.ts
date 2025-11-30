@@ -11,7 +11,7 @@ test(`Assignment: 1 Create a Lead`, async () => {
     await page.goto(`http://leaftaps.com/opentaps/control/main`);
 
     // Login
-    await page.locator(`#username`).fill(`democsr`);
+    await page.locator(`#username`).fill(`demosalesmanager`);
     await page.locator(`#password`).fill(`crmsfa`);
     await page.locator(`.decorativeSubmit`).click();
 

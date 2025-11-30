@@ -6,7 +6,7 @@ test(`Test to learn CSS `, async () => {
     const browserContext = await browserInstance.newContext();
     const page = await browserContext.newPage();
     await page.goto(`http://leaftaps.com/opentaps/control/main`);
-    await page.locator(`#username`).fill(`democsr`);
+    await page.locator(`#username`).fill(`demosalesmanager`);
     await page.locator(`#password`).fill(`crmsfa`);
     await page.locator(`.decorativeSubmit`).click();
 

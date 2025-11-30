@@ -27,10 +27,13 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Capture trace on first retry */
-    trace: 'on-first-retry',
+    trace: 'on',
 
     /* Run browser in headed mode (visible) */
     headless: false,
+
+    video:'on',
+    screenshot:'on'
   },
 
   /* Browsers */
