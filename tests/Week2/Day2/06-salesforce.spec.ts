@@ -24,6 +24,8 @@ test(`Assignment 3: Create a new account`, async () => {
     await page.getByRole(`button`, { name: `Log In` }).click();
 
     // Test Can't continue due to MFA
+    await page.waitForTimeout(1200000);
+    await page.context().storageState({path:"Data/salesforceLogin.json"})
 
     // checking if it reached lightning page
     await expect(page).toHaveURL(`/lightning/`);
