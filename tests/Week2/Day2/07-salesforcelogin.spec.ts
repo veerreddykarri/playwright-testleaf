@@ -25,7 +25,7 @@ test(`Salesforce Login`, async () => {
 
   // ⏳ Wait for you to complete MFA manually  
   console.log("👉 Complete MFA in the browser...");
-  await page.waitForTimeout(120000); // 2 minutes is enough
+  await page.waitForTimeout(240000); // 2 minutes is enough
 
   // ⭐ Save the logged-in session for future tests
   await context.storageState({
