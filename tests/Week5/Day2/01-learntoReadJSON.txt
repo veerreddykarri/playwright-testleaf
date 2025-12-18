@@ -1,0 +1,54 @@
+import { test } from "@playwright/test";
+
+import credentials from "../../Data/login.json"
+
+for( let data of credentials){
+
+test(`Learn to read data from JSON ${data.TcaseId} `, async ({ page }) => {
+
+    await page.goto(`http://leaftaps.com/opentaps/control/main`)
+
+    await page.locator(`//input[@id="username"]`).fill(data.Username);
+
+    await page.locator(`//input[@id="password"]`).fill(data.Password);
+
+    await page.locator(`//input[@class="decorativeSubmit"]`).click();
+
+    await page.locator(`//a[contains(text(),"CRM")]`).click()
+
+    await page.waitForTimeout(3000)
+})
+}
+
+
+/* test(`Learn to read data from JSON TC001`, async ({ page }) => {
+
+    await page.goto(`http://leaftaps.com/opentaps/control/main`)
+
+    await page.locator(`//input[@id="username"]`).fill(data.Username); // First iteration for first set data
+                                                                       //demosalesmanager 
+    await page.locator(`//input[@id="password"]`).fill(data.Password);//crmsfa
+
+    await page.locator(`//input[@class="decorativeSubmit"]`).click();
+
+    await page.locator(`//a[contains(text(),"CRM")]`).click()
+
+    await page.waitForTimeout(3000)
+})
+}
+
+test(`Learn to read data from JSON TC002`, async ({ page }) => {
+
+    await page.goto(`http://leaftaps.com/opentaps/control/main`)
+
+    await page.locator(`//input[@id="username"]`).fill(data.Username);  First iteration for first set data
+                                                                        // DemoCSR
+    await page.locator(`//input[@id="password"]`).fill(data.Password); // crmsfa
+
+    await page.locator(`//input[@class="decorativeSubmit"]`).click();
+
+    await page.locator(`//a[contains(text(),"CRM")]`).click()
+
+    await page.waitForTimeout(3000)
+})
+}*/
