@@ -5,18 +5,16 @@ let sysid: any; //Global Variable
 
 test.describe.serial('ServiceNow API Tests', () => {
 
-    test('Creating incident', async ({ request }) => {
+    test('Creating change request', async ({ request }) => {
 
-        const response = await request.post('https://dev291487.service-now.com/api/now/table/incident',
+        const response = await request.post('https://dev291487.service-now.com/api/now/table/change_request',
             {
                 headers: {
                     "Authorization": "Basic YWRtaW46QjdoL1E3T3dqYy9C",
                     "Content-Type": "application/json"
                 },
                 data: {
-                    "short_description": "Veer Create Incident with Playwright API",
-                    "urgency": "1",
-                    "impact": "1"
+                    "short_description": "Veer Create Change Request with Playwright API"
                 }
             })
         const responseBody = await response.json();
@@ -27,9 +25,9 @@ test.describe.serial('ServiceNow API Tests', () => {
         sysid = responseBody.result.sys_id;
     });
 
-    test('Fetch incident', async ({ request }) => {
+    test('Fetch change request', async ({ request }) => {
 
-        const response = await request.get(`https://dev291487.service-now.com/api/now/table/incident/${sysid}`,
+        const response = await request.get(`https://dev291487.service-now.com/api/now/table/change_request/${sysid}`,
             {
                 headers: {
                     "Authorization": "Basic YWRtaW46QjdoL1E3T3dqYy9C",
@@ -42,18 +40,16 @@ test.describe.serial('ServiceNow API Tests', () => {
         console.log(response.statusText());
         expect(response.status()).toBe(200);
     });
-    test('Updating incident', async ({ request }) => {
+    test('Updating change request', async ({ request }) => {
 
-        const response = await request.put(`https://dev291487.service-now.com/api/now/table/incident/${sysid}`,
+        const response = await request.put(`https://dev291487.service-now.com/api/now/table/change_request/${sysid}`,
             {
                 headers: {
                     "Authorization": "Basic YWRtaW46QjdoL1E3T3dqYy9C",
                     "Content-Type": "application/json"
                 },
                 data: {
-                    "short_description": "Veer Update Incident with Playwright API",
-                    "urgency": "1",
-                    "impact": "1"
+                    "short_description": "Veer Update Change Request with Playwright API"
                 }
             })
         const responseBody = await response.json();
@@ -61,11 +57,11 @@ test.describe.serial('ServiceNow API Tests', () => {
         console.log(response.status());
         console.log(response.statusText());
         expect(response.status()).toBe(200);
-        expect(responseBody.result.short_description).toBe("Veer Update Incident with Playwright API");
+        expect(responseBody.result.short_description).toBe("Veer Update Change Request with Playwright API");
     });
-    test('Delete incident', async ({ request }) => {
+    test('Delete change request', async ({ request }) => {
 
-        const response = await request.delete(`https://dev291487.service-now.com/api/now/table/incident/${sysid}`,
+        const response = await request.delete(`https://dev291487.service-now.com/api/now/table/change_request/${sysid}`,
             {
                 headers: {
                     "Authorization": "Basic YWRtaW46QjdoL1E3T3dqYy9C",
