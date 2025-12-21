@@ -1,0 +1,121 @@
+//Postman API Tests for Salesforce Contact
+import { expect, test } from '@playwright/test';
+
+let access_token: any; //Global Variable
+let instance_url: any; //Global Variable
+let contactID: any; //Global Variable
+let token_type: any; //Global Variable
+
+
+test.describe.serial('Salesforce API Tests', () => {
+
+    test('Generate Access Token', async ({ request }) => {
+
+        const response = await request.post('https://login.salesforce.com/services/oauth2/token',
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                form: {
+                    "grant_type": "password",
+                    "client_id": "3MVG9dAEux2v1sLsrkD8Ig2awIvVNm4qFx69Lxl0Gt8C.gNKsQG0OR2RuJT8Mf66OurAzbFsc4CPboKUCCeEL",
+                    "client_secret": "B94DA027EF595297F630DE5AADCF633DA310339DFDD330FEF2F962E0EB6619D9",
+                    "username": "veerreddykarri700@agentforce.com",
+                    "password": "Kt903723.MeOuhWCUnABJiLq9brMepAHfJ"
+                }
+            })
+        const responseBody = await response.json();
+        console.log(responseBody);
+        console.log(response.status());
+        console.log(response.statusText());
+        expect(response.status()).toBe(200);
+        access_token = responseBody.access_token;
+        instance_url = responseBody.instance_url;
+        token_type = responseBody.token_type;
+    });
+
+    test('Creating Contact', async ({ request }) => {
+
+        const response = await request.post(`${instance_url}/services/data/v65.0/sobjects/Contact/`,
+            {
+                headers: {
+                    "Authorization": token_type + " " + access_token,
+                    "Content-Type": "application/json"
+                },
+                data: {
+                "Salutation": "Mr.",
+                "FirstName": "Veer " + Date.now(),
+                "LastName": "Veer Playwright",
+                "Email": "veer.playwright" + Date.now() + "@jiya.com",
+            }
+            })
+    const responseBody = await response.json();
+    console.log(responseBody);
+    console.log(response.status());
+    console.log(response.statusText());
+    expect(response.status()).toBe(201);
+    contactID = responseBody.id;
+});
+
+test('Fetch Contact', async ({ request }) => {
+
+    const response = await request.get(`${instance_url}/services/data/v65.0/sobjects/Contact/${contactID}`,
+        {
+            headers: {
+                "Authorization": token_type + " " + access_token,
+                "Content-Type": "application/json"
+            }
+        })
+    const responseBody = await response.json();
+    console.log(responseBody);
+    console.log(response.status());
+    console.log(response.statusText());
+    expect(response.status()).toBe(200);
+});
+test('Updating Contact', async ({ request }) => {
+
+    const response = await request.patch(`${instance_url}/services/data/v65.0/sobjects/Contact/${contactID}`,
+        {
+            headers: {
+                "Authorization": token_type + " " + access_token,
+                "Content-Type": "application/json"
+            },
+            data: {
+                "LastName": "Veer Playwright Updated",
+            }
+        })
+    console.log(response.status());
+    console.log(response.statusText());
+    expect(response.status()).toBe(204);
+});
+test('Fetch Contact To Verify Update', async ({ request }) => {
+
+    const response = await request.get(`${instance_url}/services/data/v65.0/sobjects/Contact/${contactID}`,
+        {
+            headers: {
+                "Authorization": token_type + " " + access_token,
+                "Content-Type": "application/json"
+            }
+        })
+    const responseBody = await response.json();
+    console.log(responseBody);
+    console.log(response.status());
+    console.log(response.statusText());
+    expect(response.status()).toBe(200);
+    expect(responseBody.LastName).toBe("Veer Playwright Updated");
+});
+
+test('Delete Contact', async ({ request }) => {
+
+    const response = await request.delete(`${instance_url}/services/data/v65.0/sobjects/Contact/${contactID}`,
+        {
+            headers: {
+                "Authorization": token_type + " " + access_token,
+                "Content-Type": "application/json"
+            }
+        })
+    console.log(response.status());
+    console.log(response.statusText());
+    expect(response.status()).toBe(204);
+});
+});

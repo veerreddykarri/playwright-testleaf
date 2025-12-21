@@ -1,4 +1,4 @@
-//Postman API Tests for ServiceNow
+//Postman API Tests for Salesforce Lead
 import { expect, test } from '@playwright/test';
 
 let access_token: any; //Global Variable
