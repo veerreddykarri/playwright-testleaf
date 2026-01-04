@@ -1,16 +1,9 @@
 
 import { chromium, expect, Page } from '@playwright/test';
 import { locators } from './locators';
+import { PWWrapper } from '../utility/playwrightWrapper';
 
-export class LoginPage {
-
-    lppage: Page;
-
-
-    constructor(page: Page) {
-        this.lppage = page;
-    }
-
+export class LoginPage extends PWWrapper {
 
     async loadUrl(url: string): Promise<void> {
         await this.lppage.goto(url);
@@ -18,9 +11,10 @@ export class LoginPage {
 
 
     async enterCredentials(username: string, password: string): Promise<void> {
-        await this.lppage.fill(locators.usernameField, username);
-
-        await this.lppage.fill(locators.PwdField, password);
+        // await this.lppage.fill(locators.usernameField, username);
+        // await this.lppage.fill(locators.PwdField, password);
+        await this.type(locators.usernameField, username);
+        await this.type(locators.PwdField, password);
     }
 
     async clickLogin(): Promise<void> {

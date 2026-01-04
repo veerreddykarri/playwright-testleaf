@@ -1,0 +1,211 @@
+
+# 🏦 **Banking Analogy for Abstract Class & Interface**
+
+ **Reserve Bank of India (RBI)** controls the banking system in India.
+
+There are many banks:
+
+* SBI
+* HDFC
+* ICICI
+* Axis
+
+Each bank has its **own services and experience**, but **all must follow RBI rules**.
+
+---
+
+## 🧩 **1️⃣ Interface → RBI Rulebook 📘**
+
+RBI issues **mandatory regulations** for all banks.
+
+It says:
+
+> “Every bank **must**:
+
+> * provide `openAccount()`
+> * support `depositMoney()`
+> * support `withdrawMoney()`
+> * follow `interestRatePolicy()` ”
+
+RBI does **not** tell **how** the bank implements it — only that it **must exist**.
+
+---
+
+### **In Playwright / TypeScript**
+
+export interface RBIRegulations {
+  openAccount(): void;
+  depositMoney(): void;
+  withdrawMoney(): void;
+  interestRatePolicy(): number;
+}
+
+### Purpose
+
+* Ensures **all banks follow RBI rules**
+* Framework can trust that **every bank supports these operations**
+* No implementation, only **contract**
+
+ **Key line for learners:**
+
+> Interface is a **law**, not a suggestion.
+
+---
+
+## Abstract Class → RBI Base Banking Framework**
+
+RBI also provides **common operational guidelines**:
+
+✔ KYC mandatory
+✔ PAN / Aadhaar validation
+✔ Daily withdrawal limits
+✔ Audit logging
+
+But RBI says:
+
+> “Each bank must define:
+>
+> * its own interest rate
+> * loan approval process
+> * customer experience”
+
+So RBI gives a **base structure** with **some ready-made logic** and **some unfinished parts**.
+
+---
+
+### **In Playwright / TypeScript**
+
+
+export abstract class BaseBank {
+  
+  validateKYC(): void {
+    console.log("KYC verified as per RBI norms");
+  }
+
+  auditTransaction(): void {
+    console.log("Transaction logged for RBI audit");
+  }
+
+  // Must be defined by every bank
+  abstract interestRatePolicy(): number;
+}
+
+
+### ✅ Purpose
+
+* Shares **common RBI-mandated behavior**
+* Forces each bank to define **their own policies**
+* Cannot be instantiated directly
+
+ **Key line:**
+
+> Abstract class is a **template with blanks to fill**.
+
+---
+
+##  Individual Banks → Concrete Classes **
+
+Now each bank:
+
+* **Implements RBI regulations (interface)**
+* **Extends RBI base framework (abstract class)**
+
+---
+
+### **Example: SBI Bank**
+
+export class SBIBank extends BaseBank implements RBIRegulations {
+
+  openAccount(): void {
+    console.log("SBI account opened");
+  }
+
+  depositMoney(): void {
+    console.log("Money deposited in SBI");
+  }
+
+  withdrawMoney(): void {
+    console.log("Money withdrawn from SBI");
+  }
+
+  interestRatePolicy(): number {
+    return 4.0;
+  }
+}
+
+---
+
+### **Example: HDFC Bank**
+
+export class HDFCBank extends BaseBank implements RBIRegulations {
+
+  openAccount(): void {
+    console.log("HDFC account opened digitally");
+  }
+
+  depositMoney(): void {
+    console.log("Money deposited in HDFC");
+  }
+
+  withdrawMoney(): void {
+    console.log("Money withdrawn via ATM");
+  }
+
+  interestRatePolicy(): number {
+    return 3.5;
+  }
+}
+```
+
+### ✅ Purpose
+
+* All banks **follow RBI rules**
+* All banks **reuse RBI common logic**
+* Each bank has **its own business model**
+
+---
+
+## 4️⃣ Spec File → RBI Audit / Inspection 🧾**
+
+RBI conducts audits to ensure compliance.
+
+---
+
+### 💻 **Spec File Analogy**
+
+```ts
+test("RBI Compliance Check", async () => {
+
+  const bank: RBIRegulations = new SBIBank();
+
+  bank.openAccount();
+  bank.depositMoney();
+  bank.withdrawMoney();
+
+  console.log(bank.interestRatePolicy());
+});
+```
+
+ RBI doesn’t care **which bank**, it only checks **rules are followed**.
+
+---
+
+## **Updated Summary Table**
+
+| Playwright / OOP Concept | Banking Analogy             | Explanation                            |
+| ------------------------ | --------------------------- | -------------------------------------- |
+| **Interface**            | RBI Regulations             | Mandatory rules every bank must follow |
+| **Abstract Class**       | RBI Base Banking Framework  | Common setup + mandatory customization |
+| **Concrete Class**       | SBI / HDFC / ICICI Bank     | Implements rules with own logic        |
+| **Spec File**            | RBI Audit / Compliance Test | Verifies rules are followed            |
+
+---
+
+##  **In One Line **
+
+> **Interface defines RBI rules, abstract class provides RBI’s base banking framework, and each bank implements its own policies while staying compliant.**
+
+---
+
+
+

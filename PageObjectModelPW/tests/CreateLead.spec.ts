@@ -1,24 +1,20 @@
-import { test } from "@playwright/test";
-import { ViewLeadPage } from "../pages/06-viewLeadPage";
+import { test } from "../utility/customFixtures";
 import dotenv from "dotenv"
 import credentials from "../Data/login.json"
-
-dotenv.config({path:"Data/prod.env"})
-
+dotenv.config({ path: "Data/prod.env" })
 
 
-test(`Create Lead Verification`,async ({page}) => {
 
-const vp = new ViewLeadPage(page)
+test(`Create Lead Verification`, async ({ lop, wp, hp, lp, clp, vlp }) => {
 
-await vp.loadUrl(process.env.BaseUrl as string)
-await vp.enterCredentials(credentials[0].Username,credentials[0].Password)
-await vp.clickLogin()
-await vp.clickCRM()
-await vp.clickLead()
-await vp.clickCreateLead()
-await vp.enterMandatoryDetails()
-await vp.clickSubmit()
-await vp.verifyFirstName()
-    
-})
+    await lop.loadUrl(process.env.BaseUrl as string)
+    await lop.enterCredentials(credentials[0].Username, credentials[0].Password)
+    await lop.clickLogin()
+    await wp.clickCRM()
+    await hp.clickLead()
+    await lp.clickCreateLead()
+    await clp.enterMandatoryDetails()
+    await clp.clickSubmit()
+    await vlp.verifyFirstName()
+
+});

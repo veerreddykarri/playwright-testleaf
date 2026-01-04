@@ -1,0 +1,240 @@
+📑 Agenda for Week 8 Day 1: POM and Playwright Advanced Features
+🎯 Focus: Mastering POM using OOPS concept and learning advanced playwright features.
+
+📆 03rd Dec, Saturday
+
+🕝 Session Highlights
+
+⿡ Recap
+Quick review of previous learnings.
+
+1. Custom Fixture
+Creating reusable test setup using custom fixtures.
+Implementing the same in POM.
+Examples: Injecting test data, context, or utilities.
+
+2. Abstraction
+Using abstract classes and methods to define templates.
+Implementing the same in POM.
+Examples: Designing partially implemented base classes.
+
+***************************Breakout********************************
+
+3. Hooks Test Annotation
+* Different test annotation used as part of testcase execution.
+
+4. Test Annotations
+* Enhancing test readability and control using annotations.
+* Examples: Skipping, focusing, or tagging specific tests.
+
+🕡 Wrap Up / Q\&A
+
+📝 Keep your physical notebook and pen handy to sketch out ideas and test workflows!
+
+
+____________________________________________________________________________________________
+
+
+# Playwright Custom Fixture –
+
+## What problem is Custom Fixture solving?
+
+=> In real projects, **every test needs login**
+=> Writing login steps in **every test** is:
+
+* Repetitive 
+* Hard to maintain 
+* Not professional 
+
+✅ **Solution:** Use a **custom fixture**
+
+---
+
+##What is a Fixture (Simple words)
+
+> A **fixture** is **pre-written setup code** that runs **before your test starts**,and **cleanup code** that runs **after your test ends**.
+
+---
+
+## Your Custom Fixture File (02-fixture.ts)
+
+import { test as baseT } from "@playwright/test";
+
+export const test = baseT.extend({
+
+### What is happening here?
+
+* `baseT` → Original Playwright test
+* `extend()` → We are **adding our own behavior**
+* We are **overriding the `page` fixture**
+
+---
+
+## The Custom `page` Fixture
+
+page: async ({ browser }, use) => {
+
+### Meaning:
+
+* Playwright gives us a **browser**
+* We create our **own page**
+* We control **when test starts and ends**
+
+---
+
+## Setup Phase (Runs BEFORE the test)
+
+const page = await browser.newPage()
+await page.goto(`http://leaftaps.com/opentaps/control/main`)
+
+✔ Browser opens
+✔ Page opens
+✔ Application launches
+
+---
+
+### Login Steps (Reusable logic)
+
+await page.locator(`#username`).fill(`demosalesmanager`);
+await page.locator(`#password`).fill(`crmsfa`);
+await page.locator(`.decorativeSubmit`).click();
+
+✔ Login is completed
+✔ Now page is in **logged-in state**
+
+---
+
+## The MOST IMPORTANT LINE
+
+await use(page)
+
+### MUST REMEMBER
+
+> **`use(page)` is the border line**
+
+### What it means:
+
+| Before `use(page)` | After `use(page)` |
+| ------------------ | ----------------- |
+| Setup code         | Cleanup code      |
+| Runs BEFORE test   | Runs AFTER test   |
+
+Think of it as:
+
+> “Okay Playwright, now give this page to the test”
+
+---
+
+## Cleanup Phase (Runs AFTER the test)
+
+await page.close()
+
+✔ Page closed
+✔ Browser cleaned
+✔ No memory leak
+
+This happens **automatically after test execution**
+
+---
+
+## Your Test File
+
+import { test } from "./02-fixture";
+
+
+### Why not import from `@playwright/test`?
+
+👉 Because we want:
+
+* Logged-in page
+* Pre-configured page
+* Reusable setup
+
+---
+
+### Test Code
+
+test(`Using Custom Fixture`, async ({ page }) => {
+    console.log(await page.title());
+});
+
+
+### What happens here?
+
+* Page is **already logged in**
+* Test does **NOT know login logic**
+* Test focuses only on **validation**
+
+📌 Output:
+
+Leaftaps - TestLeaf Automation Platform
+---
+
+## Execution Flow (VERY IMPORTANT)
+
+Fixture START
+  ├─ Browser opens
+  ├─ Page opens
+  ├─ App launches
+  ├─ Login happens
+  ├─ use(page) ← Test starts here
+      └─ Test prints title
+  ├─ Test ends
+  ├─ page.close()
+Fixture END
+```
+
+---
+
+## Why This Is INDUSTRY STANDARD
+
+✅ Clean code
+✅ Reusable
+✅ Scalable
+✅ Easy maintenance
+✅ Interview-ready concept
+
+---
+
+
+
+---
+
+## One-line Interview Answer
+
+> **Custom fixture is used to centralize common setup and teardown logic so that tests remain clean, reusable, and maintainable.**
+
+---
+
+
+
+1. Interface :
+-----------------
+
+- Complete hiding of the implemented.
+- 100% abstraction.
+- Only unimplemented methods.
+
+Summarize 
+
+- class extends another class
+- abstract extends another abstract class
+- interface extends another interface
+- class extends abstract class
+- class implements interface
+- class extends abstract class implemnets interface
+
+We cannot see implementation of your page fixture, context browser in playwright everytging is put in as interface
+
+2. Abstraction
+----------------- 
+
+abstract class :
+
+- 0 to 100% abstraction.
+- Method signature --> unimplementedmethods
+- Implemented methods --> logic 
+
+------------------------------------------------------------------------------------
+
+
